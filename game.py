@@ -4,7 +4,7 @@ import threading
 import random
 
 def countdown():
-    for time_left in range(10, 0, -1):
+    for time_left in range(600, 0, -1):
         timer_window.addstr(0, 0, str(time_left) + "\n")
         timer_window.refresh()
         time.sleep(1)
