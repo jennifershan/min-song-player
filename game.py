@@ -8,8 +8,6 @@ def countdown():
         timer_window.addstr(0, 0, str(time_left) + "\n")
         timer_window.refresh()
         time.sleep(1)
-    curses.echo()
-    curses.nocbreak()    
     timer_window.addstr(0, 0, "0" + "\n")
     timer_window.refresh()
     input_window.clear()
@@ -20,6 +18,7 @@ stdscr = curses.initscr()
 
 curses.noecho()
 curses.cbreak()
+stdscr.keypad(True)
 curses.curs_set(0)
 
 if curses.has_colors():
@@ -77,8 +76,16 @@ while countdown_thread.is_alive():
 
         user_answer = ""
         prev_answer = lines[sequence].split('=')[-1].replace("\n", "")
+    elif key == 127:
+        curs_pos = input_window.getyx()
+        input_window.addstr(curs_pos[0], curs_pos[1] - 1, " ")
+        input_window.move(curs_pos[0], curs_pos[1] - 1)
+        user_answer = user_answer[:-1]
     else:
         input_window.addstr(chr(key))
         user_answer += chr(key)
 
-curses.endwin()   
+curses.echo()
+curses.nocbreak()
+stdscr.keypad(False)
+curses.endwin()
